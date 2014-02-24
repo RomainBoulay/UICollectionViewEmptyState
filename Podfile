@@ -6,8 +6,8 @@ pod 'libextobjc/EXTScope', '0.3'
 pod 'JRSwizzle', '1.0'
 
 target :Tests do
-  pod 'TestPilot/Core-iOS', '0.0.5'
-  pod 'TestPilot/Specta', '0.0.5'
+  pod 'Specta'
+  pod 'Expecta'
 end
 
 inhibit_all_warnings!
