@@ -7,7 +7,7 @@
 //
 
 #import "DemoCell.h"
-#import "UIControl+BlocksKit.h"
+#import "UIControl+Blockskit.h"
 
 @implementation DemoCell
 @end
