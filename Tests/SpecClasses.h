@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "UICollectionView+EmptyState.h"
+#import "UICollectionViewEmptyState.h"
 
 @interface SpecCollectionController : UICollectionViewController <UICollectionViewDelegateFlowLayout>
 @property (nonatomic, assign) NSUInteger numberOfSections;

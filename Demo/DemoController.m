@@ -9,7 +9,7 @@
 #import "DemoController.h"
 #import "DemoCell.h"
 #import "UIControl+Blockskit.h"
-#import "UICollectionView+EmptyState.h"
+#import "UICollectionViewEmptyState.h"
 
 @interface DemoController () <UICollectionViewDelegateFlowLayout>
 @property (strong, nonatomic) IBOutlet UIStepper *sectionStepper;
@@ -21,106 +21,110 @@
 @implementation DemoController
 
 - (void)viewDidLoad {
-  [super viewDidLoad];
-
-  self.title = @"Demo";
-
-  __weak DemoController *weakSelf = self;
-
-  [self.sectionStepper bk_addEventHandler:^(id sender) {
-    [weakSelf.collectionView reloadData];
-  } forControlEvents:UIControlEventValueChanged];
-
-  [self.itemStepper bk_addEventHandler:^(id sender) {
-    [weakSelf.collectionView reloadData];
-  } forControlEvents:UIControlEventValueChanged];
-
-  [self.decoratorSwitch bk_addEventHandler:^(id sender) {
-    [weakSelf.collectionView reloadData];
-  } forControlEvents:UIControlEventValueChanged];
-
-  self.toolbarItems = @[[[UIBarButtonItem alloc] initWithCustomView:self.sectionStepper],
-                        [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
-                                                                      target:nil
-                                                                      action:nil],
-                        [[UIBarButtonItem alloc] initWithCustomView:self.decoratorSwitch],
-                        [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
-                                                                      target:nil
-                                                                      action:nil],
-                        [[UIBarButtonItem alloc] initWithCustomView:self.itemStepper]];
-
-  // configure empty view
-  self.collectionView.emptyState_view = self.emptyView;
-  self.collectionView.emptyState_showAnimationDuration = 0.3;
-  self.collectionView.emptyState_hideAnimationDuration = 0.3;
-  self.collectionView.emptyState_shouldRespectSectionHeader = YES;
+    [super viewDidLoad];
+    
+    self.title = @"Demo";
+    
+    __weak DemoController *weakSelf = self;
+    
+    [self.sectionStepper bk_addEventHandler:^(id sender) {
+        [weakSelf.collectionView reloadData];
+    } forControlEvents:UIControlEventValueChanged];
+    
+    [self.itemStepper bk_addEventHandler:^(id sender) {
+        [weakSelf.collectionView reloadData];
+    } forControlEvents:UIControlEventValueChanged];
+    
+    [self.decoratorSwitch bk_addEventHandler:^(id sender) {
+        [weakSelf.collectionView reloadData];
+    } forControlEvents:UIControlEventValueChanged];
+    
+    self.toolbarItems = @[[[UIBarButtonItem alloc] initWithCustomView:self.sectionStepper],
+                          [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
+                                                                        target:nil
+                                                                        action:nil],
+                          [[UIBarButtonItem alloc] initWithCustomView:self.decoratorSwitch],
+                          [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
+                                                                        target:nil
+                                                                        action:nil],
+                          [[UIBarButtonItem alloc] initWithCustomView:self.itemStepper]];
+    
+    // configure empty view
+    UICollectionViewEmptyState *cv = (UICollectionViewEmptyState *)self.collectionView;
+    
+//    cv.emptyState_view = self.emptyView;
+    
+    [cv setEmptyStateImageViewWithImage:[UIImage imageNamed:@"empty.png"]];
+    cv.showNoResultPlaceholderAnimationDuration = 0.3;
+    cv.hideNoResultPlaceholderAnimationDuration = 0.3;
+    cv.emptyState_shouldRespectSectionHeader = NO;
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-  return self.sectionStepper.value;
+    return self.sectionStepper.value;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView
      numberOfItemsInSection:(NSInteger)section
 {
-  return self.itemStepper.value;
+    return self.itemStepper.value;
 }
 
 - (CGSize)        collectionView:(UICollectionView *)collectionView
                           layout:(UICollectionViewLayout *)collectionViewLayout
  referenceSizeForFooterInSection:(NSInteger)section
 {
-  if (self.decoratorSwitch.on) {
-    return CGSizeMake(CGRectGetWidth(self.collectionView.frame), 50);
-  } else {
-    return CGSizeMake(CGRectGetWidth(self.collectionView.frame), 0);
-  }
+    if (self.decoratorSwitch.on) {
+        return CGSizeMake(CGRectGetWidth(self.collectionView.frame), 50);
+    } else {
+        return CGSizeMake(CGRectGetWidth(self.collectionView.frame), 0);
+    }
 }
 
 - (CGSize)        collectionView:(UICollectionView *)collectionView
                           layout:(UICollectionViewLayout *)collectionViewLayout
  referenceSizeForHeaderInSection:(NSInteger)section
 {
-  if (self.decoratorSwitch.on) {
-    return CGSizeMake(CGRectGetWidth(self.collectionView.frame), 50);
-  } else {
-    return CGSizeMake(CGRectGetWidth(self.collectionView.frame), 0);
-  }
+    if (self.decoratorSwitch.on) {
+        return CGSizeMake(CGRectGetWidth(self.collectionView.frame), 50);
+    } else {
+        return CGSizeMake(CGRectGetWidth(self.collectionView.frame), 0);
+    }
 }
 
-- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView
-           viewForSupplementaryElementOfKind:(NSString *)kind
-                                 atIndexPath:(NSIndexPath *)indexPath
-{
-  static NSDictionary *dict = nil;
-  static dispatch_once_t onceToken;
-  dispatch_once(&onceToken, ^{
-    dict = @{UICollectionElementKindSectionHeader : @"Header",
-             UICollectionElementKindSectionFooter : @"Footer"};
-  });
-
-  return [collectionView dequeueReusableSupplementaryViewOfKind:kind
-                                            withReuseIdentifier:dict[kind]
-                                                   forIndexPath:indexPath];
-}
+//- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView
+//           viewForSupplementaryElementOfKind:(NSString *)kind
+//                                 atIndexPath:(NSIndexPath *)indexPath
+//{
+//    static NSDictionary *dict = nil;
+//    static dispatch_once_t onceToken;
+//    dispatch_once(&onceToken, ^{
+//        dict = @{UICollectionElementKindSectionHeader : @"Header",
+//                 UICollectionElementKindSectionFooter : @"Footer"};
+//    });
+//    
+//    return [collectionView dequeueReusableSupplementaryViewOfKind:kind
+//                                              withReuseIdentifier:dict[kind]
+//                                                     forIndexPath:indexPath];
+//}
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
                   cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-  DemoCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"DemoCell" forIndexPath:indexPath];
-
-  static NSArray *images = nil;
-  static dispatch_once_t onceToken;
-  dispatch_once(&onceToken, ^{
-    images = @[@"bird-1368498135Eqm.jpg",
-               @"chess.jpg",
-               @"empire-state-building-1368498219KmC.jpg",
-               @"goose-1368497908c6H.jpg",
-               @"sun-1368498327ZH8.jpg"];
-  });
-  cell.imageView.image = [UIImage imageNamed:images[indexPath.section % images.count]];
-
-  return cell;
+    DemoCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"DemoCell" forIndexPath:indexPath];
+    
+    static NSArray *images = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        images = @[@"bird-1368498135Eqm.jpg",
+                   @"chess.jpg",
+                   @"empire-state-building-1368498219KmC.jpg",
+                   @"goose-1368497908c6H.jpg",
+                   @"sun-1368498327ZH8.jpg"];
+    });
+    cell.imageView.image = [UIImage imageNamed:images[indexPath.section % images.count]];
+    
+    return cell;
 }
 
 @end

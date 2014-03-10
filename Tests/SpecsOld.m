@@ -9,7 +9,7 @@
 #define EXP_SHORTHAND
 #import "Expecta.h"
 #import "Specta.h"
-#import "UICollectionView+EmptyState.h"
+#import "UICollectionViewEmptyState.h"
 #import "SpecClasses.h"
 
 #pragma mark -

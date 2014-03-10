@@ -7,7 +7,7 @@
 //
 
 #import "SpecClasses.h"
-#import "UICollectionView+EmptyState.h"
+#import "UICollectionViewEmptyState.h"
 
 #define EXP_SHORTHAND
 #import "Expecta.h"

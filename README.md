@@ -1,4 +1,4 @@
-#UICollectionView+EmptyState
+#UICollectionViewEmptyState
 
 Want to display an arbitrary `UIView` on your `UICollectionView` when in an *empty* state, and in a loosely-coupled fashion? Look no further.
 
@@ -36,7 +36,7 @@ Want to display an arbitrary `UIView` on your `UICollectionView` when in an *emp
 
 ##Usage
 
-`#import "UICollectionView+EmptyState.h"` and simply set the property `emptyState_view` on your `UICollectionView` instance. We do the rest. Note that your view will be resized to overlay the `UICollectionView` so be sure to properly configure beforehand.
+`#import "UICollectionViewEmptyState.h"` and simply set the property `emptyState_view` on your `UICollectionView` instance. We do the rest. Note that your view will be resized to overlay the `UICollectionView` so be sure to properly configure beforehand.
 
 ##Category properties
 
