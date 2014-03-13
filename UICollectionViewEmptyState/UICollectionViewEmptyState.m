@@ -48,7 +48,7 @@
     }
     
     // view may already be animating
-    BOOL animating = [self.noResultPlaceholderView.layer.animationKeys containsObject:@"opacity"];
+    BOOL animating = [self.noResultPlaceholderView.layer.animationKeys containsObject: [NSStringFromSelector(@selector(opacity))]];
     
     if (!animating && totalItems && self.noResultPlaceholderView.superview) {
         [self hideNoResultPlaceHolder];
